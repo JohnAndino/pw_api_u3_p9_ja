@@ -2,6 +2,8 @@ package uce.edu.web.api.matricula.interfaces;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.matricula.application.MateriaService;
 import uce.edu.web.api.matricula.application.dto.MateriaMaxCreditosDTO;
 import uce.edu.web.api.matricula.domain.Materia;
@@ -16,20 +18,24 @@ public class MateriaResource {
 
     @GET
     @Path("")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Materia> listarTodos() {
         return materiaService.listarTodos();
     }
 
     @GET
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Materia consultarPorId(@PathParam("id") Integer id) {
         return materiaService.consultarPorId(id);
     }
 
     @POST
     @Path("")
-    public void crear(Materia materia) {
+    
+    public Response crear(Materia materia) {
         materiaService.crear(materia);
+        return Response.status(Response.Status.CREATED).entity(materia).build();
     }
 
     @PUT
@@ -40,8 +46,9 @@ public class MateriaResource {
 
     @PATCH
     @Path("/{id}")
-    public void actualizarParcial(@PathParam("id") Integer id, Materia materia) {
+    public Response actualizarParcial(@PathParam("id") Integer id, Materia materia) {
         materiaService.actualizarParcial(id, materia);
+        return Response.status(209).entity(null).build();
     }
 
     @DELETE
