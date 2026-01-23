@@ -1,6 +1,8 @@
 package uce.edu.web.api.matricula.interfaces;
 
 import java.util.List;
+
+import io.vertx.codegen.annotations.GenIgnore;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -10,6 +12,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.matricula.application.EstudianteService;
 import uce.edu.web.api.matricula.domain.Estudiante;
 
@@ -42,8 +45,9 @@ public class EstudianteResource {
     }
     @POST
     @Path("")
-    public void guardar(Estudiante estu) {
+    public Response guardar(Estudiante estu) {
         this.estudianteService.crear(estu);
+        return Response.status(Response.Status.CREATED).entity(estu).build();
     }
 
     @PUT
@@ -54,8 +58,9 @@ public class EstudianteResource {
 
     @PATCH
     @Path("/{id}")
-    public void actualizarParcial(@PathParam("id") Integer id, Estudiante esstu){
+    public Response actualizarParcial(@PathParam("id") Integer id, Estudiante esstu){
         this.estudianteService.actualizarParcial(id, esstu);
+        return Response.status(209).entity(null).build();
     }
 
     @DELETE
