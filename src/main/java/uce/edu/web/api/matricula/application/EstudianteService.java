@@ -1,9 +1,11 @@
 package uce.edu.web.api.matricula.application;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import uce.edu.web.api.matricula.application.representation.EstudianteRepresentation;
 import uce.edu.web.api.matricula.domain.Estudiante;
 import uce.edu.web.api.matricula.infraestructure.EstudianteRepository;
 
@@ -13,12 +15,16 @@ public class EstudianteService {
     @Inject
     private EstudianteRepository estudianteRepository;
 
-    public List<Estudiante> listarTodos() {
-        return this.estudianteRepository.listAll();
+    public List<EstudianteRepresentation> listarTodos() {
+        List<EstudianteRepresentation> list = new ArrayList<>();
+        for(Estudiante estu: this.estudianteRepository.listAll()){
+            list.add(this.mapperToEr(estu));
+        }
+        return list;
     }
 
     public Estudiante consultarPorId(Integer id) {
-        return this.estudianteRepository.findById(id.longValue());
+        return this.mapperToEr(this.estudianteRepository.findById(id.longValue()));
 
     }
 
@@ -39,7 +45,7 @@ public class EstudianteService {
 
     @Transactional
     public void actualizarParcial(Integer id, Estudiante est) {
-        Estudiante estu = this.consultarPorId(id);
+        Estudiante estu = this.mapperToEstudiante(this.consultarPorId(id));
         if (est.getNombre() != null) {
             estu.setNombre(est.getNombre());
         }
@@ -60,4 +66,30 @@ public class EstudianteService {
         //return this.estudianteRepository.find("provincia", provincia).list();
         return this.estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list();
     }
+
+
+    private EstudianteRepresentation mapperToEr(Estudiante est){
+        EstudianteRepresentation estuR = new EstudianteRepresentation();
+        estuR.setId(est.getId());
+        estuR.setNombre(est.getNombre());
+        estuR.setApellido(est.getApellido());
+        estuR.setFechaNaciemiento(est.getFechaNaciemiento());
+        estuR.setGenero(est.getGenero());
+        estuR.setProvincia(est.getProvincia());
+
+    return estuR;  
+  }
+
+    private Estudiante mapperToEstudiante(EstudianteRepresentation est){
+        Estudiante estuR = new Estudiante();
+        estuR.setId(est.getId());
+        estuR.setNombre(est.getNombre());
+        estuR.setApellido(est.getApellido());
+        estuR.setFechaNaciemiento(est.getFechaNaciemiento());
+        estuR.setGenero(est.getGenero());
+        estuR.setProvincia(est.getProvincia());
+
+    return estuR;  
+  }
+
 }
