@@ -14,28 +14,28 @@ public class EstudianteService {
 
     @Inject
     private EstudianteRepository estudianteRepository;
+    
 
-    public List<EstudianteRepresentation> listarTodos() {
+    public List<EstudianteRepresentation> listarTodos(){
         List<EstudianteRepresentation> list = new ArrayList<>();
-        for(Estudiante estu: this.estudianteRepository.listAll()){
+        for(Estudiante estu : this.estudianteRepository.listAll()){
             list.add(this.mapperToEr(estu));
         }
         return list;
     }
 
-    public Estudiante consultarPorId(Integer id) {
+       public EstudianteRepresentation consultarPorId(Integer id){
         return this.mapperToEr(this.estudianteRepository.findById(id.longValue()));
-
     }
 
     @Transactional
-    public void crear(Estudiante estu) {
-        this.estudianteRepository.persist(estu);
+    public void crear(EstudianteRepresentation estu){
+        this.estudianteRepository.persist(this.mapperToEstudiante(estu));
     }
 
     @Transactional
-    public void actualizar(Integer id, Estudiante est) {
-        Estudiante estu = this.consultarPorId(id);
+    public void actualizar(Integer id, EstudianteRepresentation est) {
+        Estudiante estu = this.mapperToEstudiante(this.consultarPorId(id));
         estu.setApellido(est.getApellido());
         estu.setNombre(est.getNombre());
         estu.setFechaNaciemiento(est.getFechaNaciemiento());
@@ -44,7 +44,7 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void actualizarParcial(Integer id, Estudiante est) {
+    public void actualizarParcial(Integer id, EstudianteRepresentation est) {
         Estudiante estu = this.mapperToEstudiante(this.consultarPorId(id));
         if (est.getNombre() != null) {
             estu.setNombre(est.getNombre());
@@ -62,9 +62,12 @@ public class EstudianteService {
         this.estudianteRepository.deleteById(id.longValue());
     }
 
-    public List<Estudiante> buscarPorProvincia(String provincia, String genero){
-        //return this.estudianteRepository.find("provincia", provincia).list();
-        return this.estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list();
+    public List<EstudianteRepresentation> buscarPorProvincia(String provincia, String genero){
+       List<EstudianteRepresentation> list = new ArrayList<>();
+        for(Estudiante estu : this.estudianteRepository.find("provincia = ?1 and genero = ?2", provincia,genero).list()){
+            list.add(this.mapperToEr(estu));
+        }
+        return list;
     }
 
 

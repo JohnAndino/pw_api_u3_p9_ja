@@ -21,6 +21,13 @@ import jakarta.persistence.Table;
 
 public class Hijo extends PanacheEntityBase{
     
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hijo_seq")
     private Integer id;
