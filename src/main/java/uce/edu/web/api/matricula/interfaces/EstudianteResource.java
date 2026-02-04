@@ -23,6 +23,8 @@ import uce.edu.web.api.matricula.application.HijoService;
 import uce.edu.web.api.matricula.application.representation.EstudianteRepresentation;
 import uce.edu.web.api.matricula.application.representation.HijoRepresentation;
 import uce.edu.web.api.matricula.application.representation.LinkDto;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import uce.edu.web.api.matricula.domain.Estudiante;
 
 
@@ -40,6 +42,7 @@ public class EstudianteResource {
     @GET
     @Path("")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public List<EstudianteRepresentation> listarTodos() {
         List<EstudianteRepresentation> est = this.estudianteService.listarTodos();
  
@@ -54,6 +57,7 @@ public class EstudianteResource {
     @GET
     @Path("/provincia/genero")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public List<EstudianteRepresentation> buscarPorProvincia(@QueryParam("provincia") String provincia,@QueryParam("genero") String genero){
         System.out.println("LISTAR POR PROVINCIA Y GENERO");
         return this.estudianteService.buscarPorProvincia(provincia,genero);
@@ -62,6 +66,8 @@ public class EstudianteResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
+    //@PermitAll
     public EstudianteRepresentation consultarPorId(@PathParam("id") Integer iden) {
         return this.construirLinks(this.estudianteService.consultarPorId(iden));
 
@@ -70,6 +76,7 @@ public class EstudianteResource {
     @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public Response guardar(EstudianteRepresentation estu) {
         this.estudianteService.crear(estu);
         return Response.status(Response.Status.CREATED).entity(estu).build();
@@ -79,6 +86,7 @@ public class EstudianteResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public Response actualizar(@PathParam("id") Integer id, EstudianteRepresentation esstu){
         this.estudianteService.actualizar(id, esstu);
         return Response.status(209).entity(null).build();
@@ -87,6 +95,7 @@ public class EstudianteResource {
     @PATCH
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public Response actualizarParcial(@PathParam("id") Integer id, EstudianteRepresentation esstu){
         this.estudianteService.actualizarParcial(id, esstu);
         return Response.status(209).entity(null).build();
@@ -94,12 +103,14 @@ public class EstudianteResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public void borrar(@PathParam("id") Integer id){
         this.estudianteService.eliminar(id);;
     }
 
     @GET
     @Path("/{id}/hijos")
+    @RolesAllowed("admin")
     public List<HijoRepresentation> buscarPorIdEstudiante(@PathParam("id") Integer id){
         return this.hijoService.buscarPorIdEstudiante(id);
     }
