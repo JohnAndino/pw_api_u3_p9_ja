@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity
-@Table(name="Estudiante")
+@Table(name="estudiantes")
 //Declaro la secuencia, tiene 3 atributos 
 @SequenceGenerator(name = "estudiante_seq", sequenceName = "estudiante_secuencia", allocationSize = 1)
 //
@@ -29,7 +29,7 @@ public class Estudiante extends PanacheEntityBase {
     private Integer id;
     private String nombre;
     private String apellido;
-    private LocalDateTime fechaNaciemiento;
+    private LocalDateTime fechaNacimiento;
     private String provincia;
     private String genero;
     
@@ -51,11 +51,11 @@ public class Estudiante extends PanacheEntityBase {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    public LocalDateTime getFechaNaciemiento() {
-        return fechaNaciemiento;
+    public LocalDateTime getFechaNacimiento() {
+        return fechaNacimiento;
     }
-    public void setFechaNaciemiento(LocalDateTime fechaNaciemiento) {
-        this.fechaNaciemiento = fechaNaciemiento;
+    public void setFechaNacimiento(LocalDateTime fechaNaciemiento) {
+        this.fechaNacimiento = fechaNaciemiento;
     }
     
     public String getGenero() {

@@ -38,7 +38,7 @@ public class EstudianteService {
         Estudiante estu = this.mapperToEstudiante(this.consultarPorId(id));
         estu.setApellido(est.getApellido());
         estu.setNombre(est.getNombre());
-        estu.setFechaNaciemiento(est.getFechaNaciemiento());
+        estu.setFechaNacimiento(est.getFechaNaciemiento());
 
         // se actualiza automaticamente por dirtychecking
     }
@@ -53,7 +53,7 @@ public class EstudianteService {
             estu.setApellido(est.getApellido());
         }
         if (est.getFechaNaciemiento() != null) {
-            estu.setFechaNaciemiento(est.getFechaNaciemiento());
+            estu.setFechaNacimiento(est.getFechaNaciemiento());
         }
     }
 
@@ -76,7 +76,7 @@ public class EstudianteService {
         estuR.setId(est.getId());
         estuR.setNombre(est.getNombre());
         estuR.setApellido(est.getApellido());
-        estuR.setFechaNaciemiento(est.getFechaNaciemiento());
+        estuR.setFechaNaciemiento(est.getFechaNacimiento());
         estuR.setGenero(est.getGenero());
         estuR.setProvincia(est.getProvincia());
 
@@ -88,7 +88,7 @@ public class EstudianteService {
         estuR.setId(est.getId());
         estuR.setNombre(est.getNombre());
         estuR.setApellido(est.getApellido());
-        estuR.setFechaNaciemiento(est.getFechaNaciemiento());
+        estuR.setFechaNacimiento(est.getFechaNaciemiento());
         estuR.setGenero(est.getGenero());
         estuR.setProvincia(est.getProvincia());
 
